@@ -1,0 +1,92 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+model User {
+  id         String       @id @default(uuid())
+  name       String
+  email      String    
+  password   String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+model Role {
+  id         String       @id @default(uuid())
+  name       String
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+model Team {
+  id          String           @id @default(uuid())
+  name        String
+  description String?
+  createdAt   DateTime      @default(now())
+}
+model TeamMember {
+  id String @id @default(uuid())
+  userId Int
+  teamId Int
+  role   String 
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+model Project {
+  id          String       @id @default(uuid())
+  name        String
+  description String?
+  status      Boolean @default(true)
+  ownerId     Int
+  teamId      Int
+  createdAt   DateTime  @default(now())
+}
+model ProjectStatus {
+  id          String       @id @default(uuid())
+  name        String
+  status      Boolean     @default(true)
+  createdAt   DateTime  @default(now()) 
+}
+model Task {
+  id          String       @id @default(uuid())
+  title       String
+  description String?
+  projectId   Int
+  assigneeId  Int?
+  createdAt   DateTime     @default(now())
+}
+model TaskStatus {
+id          String       @id @default(uuid())
+status      Boolean       @default(true)
+createdAt   DateTime     @default(now())
+}
+model TaskPriority {
+id          String       @id @default(uuid())
+name        String
+status      Boolean       @default(true)
+createdAt   DateTime     @default(now())
+}
+model Comment {
+  id        String      @id @default(uuid())
+  content   String
+  userId    Int
+  taskId    Int
+  createdAt DateTime @default(now())
+}
+
+
+
+
+
+
+
+
